@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — DocuRAG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,sans-serif;}
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+                radial-gradient(ellipse 700px 400px at 15% 0%, rgba(220,180,190,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 500px 350px at 90% 10%, rgba(200,160,170,0.04) 0%, transparent 55%),
+                #fdf8f9;
+        }
+
+        /* ── OUTER CIRCLE ── */
+        .login-container{
+            width: 590px;
+            height: 590px;
+            border-radius: 50%;
+            background: #f8f2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:
+                22px 22px 45px rgba(200,180,185,0.55),
+                -22px -22px 45px rgba(255,255,255,0.95),
+                inset 3px 3px 7px rgba(200,180,185,0.3),
+                inset -3px -3px 7px rgba(255,255,255,0.85);
+        }
+
+        /* ── FORM BOX ── */
+        .login-box{
+            width: 310px;
+            text-align: center;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ── BRAND BADGE ── */
+        .brand-badge{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(200,180,185,0.5);
+            width: 100%;
+        }
+
+        .brand-icon{
+            width:40px; height:40px; border-radius:11px;
+            background:linear-gradient(135deg,#1a1a1a,#333333);
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 4px 14px rgba(0,0,0,0.35);
+            flex-shrink:0;
+        }
+
+        .brand-icon svg{width:20px;height:20px;}
+        .brand-name{font-size:19px;font-weight:800;letter-spacing:-0.02em;color:#1a1018;}
+
+        h1{
+            font-size:26px;font-weight:800;color:#1a1018;
+            margin-bottom:8px;letter-spacing:-0.02em;width:100%;
+        }
+
+        .subtitle{
+            color:#8a8090;font-size:13px;
+            margin-bottom:24px;font-weight:500;width:100%;
+            line-height:1.5;
+        }
+
+        /* ── INPUT ── */
+        .input-box{position:relative;width:100%;height:46px;margin-bottom:12px;}
+        .input-box i.field-icon{
+            position:absolute;left:17px;top:50%;transform:translateY(-50%);
+            color:#1a1a1a;font-size:14px;z-index:2;
+        }
+
+        .input-box input{
+            width:100%;height:100%;border:none;outline:none;
+            border-radius:13px;padding:0 42px 0 44px;
+            background:#f8f2f3;color:#2a2028;font-size:13.5px;font-family:inherit;
+            box-shadow:
+                inset 3px 3px 6px rgba(200,180,185,0.5),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+            transition:box-shadow .18s ease;
+        }
+
+        .input-box input::placeholder{color:#b0a0a8;}
+        .input-box input:focus{
+            box-shadow:
+                inset 2px 2px 5px rgba(200,180,185,0.55),
+                inset -2px -2px 5px rgba(255,255,255,0.95),
+                0 0 0 2px rgba(0,0,0,0.2);
+        }
+
+        .password-toggle{
+            position:absolute;right:16px;top:50%;transform:translateY(-50%);
+            color:#b0a0a8;cursor:pointer;z-index:3;font-size:13px;
+            transition:color .15s ease;
+        }
+
+        .password-toggle:hover{color:#1a1a1a;}
+
+        /* ── FORGOT ── */
+        .forgot{text-align:right;width:100%;margin:-4px 0 16px;}
+        .forgot a{font-size:12px;color:#333333;font-weight:600;text-decoration:none;}
+        .forgot a:hover{text-decoration:underline;}
+
+        /* ── SIGN IN BUTTON ── */
+        .login-btn{
+            width:100%;height:46px;border:none;border-radius:14px;
+            background:#f8f2f3;color:#2a2028;
+            font-size:14px;font-weight:700;letter-spacing:.8px;font-family:inherit;
+            cursor:pointer;position:relative;overflow:hidden;
+            box-shadow:5px 5px 10px rgba(200,180,185,0.55),-5px -5px 10px rgba(255,255,255,0.9);
+            transition:all .2s ease;
+        }
+
+        .login-btn::after{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,rgba(0,0,0,0.08),rgba(0,0,0,0.05));
+            opacity:0;transition:opacity .2s ease;
+        }
+
+        .login-btn:hover{color:#333333;}
+        .login-btn:hover::after{opacity:1;}
+        .login-btn:active{
+            box-shadow:inset 4px 4px 8px rgba(200,180,185,0.55),inset -4px -4px 8px rgba(255,255,255,0.9);
+        }
+        .login-btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+        /* ── DIVIDER ── */
+        .divider{display:flex;align-items:center;gap:10px;margin:14px 0 12px;width:100%;}
+        .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(200,180,185,0.6);}
+        .divider span{font-size:11.5px;color:#b0a0a8;font-weight:600;}
+
+        /* ── GOOGLE BUTTON ── */
+        .google-btn{
+            width:100%;height:46px;border:none;border-radius:14px;
+            background:#f8f2f3;
+            display:flex;align-items:center;justify-content:center;gap:10px;
+            color:#4a5568;font-size:13.5px;font-weight:600;
+            font-family:inherit;cursor:pointer;
+            box-shadow:4px 4px 8px rgba(200,180,185,0.5),-4px -4px 8px rgba(255,255,255,0.9);
+            transition:all .2s ease;
+            text-decoration:none;
+        }
+
+        .google-btn:hover{
+            color:#2a2028;
+            box-shadow:6px 6px 12px rgba(200,180,185,0.55),-6px -6px 12px rgba(255,255,255,0.95);
+            transform:translateY(-1px);
+        }
+
+        .google-btn:active{
+            box-shadow:inset 3px 3px 6px rgba(200,180,185,0.5),inset -3px -3px 6px rgba(255,255,255,0.9);
+            transform:translateY(0);
+        }
+
+        .google-btn svg.g-logo{width:18px;height:18px;flex-shrink:0;}
+
+        /* ── SIGNUP LINK ── */
+        .signup-link{margin-top:14px;color:#8a8090;font-size:12.5px;width:100%;}
+        .signup-link a{color:#333333;font-weight:700;text-decoration:none;}
+        .signup-link a:hover{text-decoration:underline;}
+
+        /* ── TOAST ── */
+        .toast{
+            position:fixed;bottom:28px;left:50%;
+            transform:translateX(-50%) translateY(20px);
+            background:#fff;
+            border:1px solid rgba(0,0,0,0.2);
+            border-left:4px solid #1a1a1a;
+            border-radius:10px;padding:12px 20px;
+            font-size:13px;font-weight:500;color:#2a2028;
+            box-shadow:0 8px 24px rgba(0,0,0,0.1);
+            opacity:0;transition:all .3s ease;
+            z-index:999;white-space:nowrap;
+        }
+
+        .toast.error{border-left-color:#ef4444;}
+        .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:600px){
+            .login-container{
+                width:92vw;height:92vw;
+                max-width:590px;max-height:590px;
+            }
+
+            .login-box{width:64%;}
+            h1{font-size:20px;}
+            .subtitle{font-size:11.5px;margin-bottom:16px;}
+            .input-box{height:40px;margin-bottom:9px;}
+            .login-btn,.google-btn{height:40px;}
+            .brand-name{font-size:15px;}
+        }
+
+        @media(max-width:400px){
+            .login-box{width:68%;}
+            h1{font-size:17px;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+
+        <!-- Brand Badge -->
+        <div class="brand-badge">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <span class="brand-name">DocuRAG</span>
+        </div>
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to your account</p>
+
+        <form id="loginForm" novalidate style="width:100%">
+            <div class="input-box">
+                <i class="fa-solid fa-envelope field-icon"></i>
+                <input type="email" id="email" placeholder="Email Address" autocomplete="email" required>
+            </div>
+            <div class="input-box">
+                <i class="fa-solid fa-lock field-icon"></i>
+                <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+                <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
+            </div>
+            <div class="forgot"><a href="#">Forgot password?</a></div>
+            <button type="submit" class="login-btn" id="loginBtn">SIGN IN</button>
+        </form>
+
+        <div class="divider"><span>or</span></div>
+
+        <button type="button" class="google-btn" id="googleBtn" onclick="handleGoogleSignIn()">
+            <svg class="g-logo" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.85l6.1-6.1C34.46 3.1 29.5 1 24 1 14.82 1 7.07 6.48 3.58 14.22l7.1 5.52C12.48 13.58 17.79 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.52 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.7c-.55 2.97-2.22 5.49-4.73 7.19l7.24 5.62C43.44 37.14 46.52 31.27 46.52 24.5z"/>
+                <path fill="#FBBC05" d="M10.68 28.26A14.54 14.54 0 0 1 9.5 24c0-1.49.26-2.93.68-4.26l-7.1-5.52A23.94 23.94 0 0 0 0 24c0 3.87.93 7.52 2.58 10.74l8.1-6.48C12.48 13.58 17.79 9.5 24 9.5z"/>
+                <path fill="#34A853" d="M24 47c6.48 0 11.93-2.14 15.9-5.82l-7.24-5.62C30.6 37.6 27.5 38.5 24 38.5c-6.21 0-11.52-4.08-13.32-9.74l-8.1 6.48C6.07 43.52 14.47 47 24 47z"/>
+            </svg>
+            <span id="googleBtnText">Continue with Google</span>
+        </button>
+
+        <p class="signup-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    function showToast(msg, type = 'error') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'toast ' + type;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    function setGoogleBtnLoading(loading) {
+        const btn  = document.getElementById('googleBtn');
+        const text = document.getElementById('googleBtnText');
+        btn.disabled      = loading;
+        btn.style.opacity = loading ? '0.65' : '';
+        btn.style.cursor  = loading ? 'not-allowed' : '';
+        text.textContent  = loading ? 'Redirecting to Google...' : 'Continue with Google';
+    }
+
+    function handleGoogleSignIn() {
+        setGoogleBtnLoading(true);
+        window.location.href = '/auth/google';
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get('error') === 'auth_failed') {
+            showToast('Google sign-in failed. Please try again.', 'error');
+            window.history.replaceState({}, '', '/login.html');
+            return;
+        }
+
+        const token = params.get('token');
+        if (!token) return;
+
+        try {
+            const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(b64));
+
+            const user = {
+                name:     payload.name    || '',
+                email:    payload.email   || '',
+                picture:  payload.picture || '',
+                initials: payload.initials || (payload.name || payload.email || 'U').substring(0, 2).toUpperCase(),
+                via:      'google'
+            };
+
+            sessionStorage.setItem('docurag_user', JSON.stringify(user));
+            localStorage.setItem('docurag_jwt', token);
+
+            showToast('Signed in as ' + user.email, 'success');
+            setTimeout(() => window.location.href = 'docurag.html', 1000);
+        } catch (e) {
+            showToast('Sign-in failed. Please try again.', 'error');
+            window.history.replaceState({}, '', '/login.html');
+        }
+    });
+
+    const pwdInput = document.getElementById('password');
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const isText = pwdInput.type === 'text';
+        pwdInput.type = isText ? 'password' : 'text';
+        this.classList.toggle('fa-eye', isText);
+        this.classList.toggle('fa-eye-slash', !isText);
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const pwd   = pwdInput.value;
+        const btn   = document.getElementById('loginBtn');
+
+        if (!email || !pwd) {
+            showToast('Please fill in all fields.');
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email address.');
+            return;
+        }
+
+        if (pwd.length < 8) {
+            showToast('Password must be at least 8 characters.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'SIGNING IN...';
+
+        try {
+            const res = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: pwd })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showToast(data.error || 'Login failed.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'SIGN IN';
+                return;
+            }
+
+            localStorage.setItem('docurag_jwt', data.token);
+            sessionStorage.setItem('docurag_user', JSON.stringify({
+                name: data.user.name,
+                email: data.user.email,
+                initials: data.user.initials || email.substring(0, 2).toUpperCase(),
+                via: 'email'
+            }));
+
+            showToast('Welcome back!', 'success');
+            setTimeout(() => window.location.href = 'docurag.html', 800);
+        } catch (err) {
+            showToast('Cannot reach server. Is the backend running?', 'error');
+            btn.disabled = false;
+            btn.textContent = 'SIGN IN';
+        }
+    });
+</script>
+</body>
+</html>

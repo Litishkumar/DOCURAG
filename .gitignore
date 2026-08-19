@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.env
+uploads/
+static/plots/
+db_miniLM/
+*.egg-info/
+dist/
+build/
+.DS_Store
+Thumbs.db
+app.txt
+index.txt
