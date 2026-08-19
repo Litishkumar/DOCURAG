@@ -179,10 +179,10 @@ def get_embeddings():
     return _embeddings_cache
 
 # Pre-warm embedding model at import time so first request isn't slow
-try:
-    get_embeddings()
-except Exception as _e:
-    logger.warning(f"⚠️ Embedding model pre-warm failed (will retry on first use): {_e}")
+#try:
+    #get_embeddings()
+#except Exception as _e:
+   # logger.warning(f"⚠️ Embedding model pre-warm failed (will retry on first use): {_e}")
 
 def get_vector_store():
     """Returns a PGVector store if Postgres is configured, otherwise falls back
