@@ -1104,12 +1104,12 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'gemini_api': bool(GEMINI_API_KEY),
-        'has_documents': has_documents(),
+        #'has_documents': has_documents(),
         'has_data': has_data(),
-        'data_files': list(excel_data_store.keys()),
-        'upload_folder': UPLOAD_FOLDER,
-        'plots_folder': PLOTS_FOLDER,
-        'vector_db_exists': os.path.exists(VECTOR_DB_DIR),
+        #'data_files': list(excel_data_store.keys()),
+        #'upload_folder': UPLOAD_FOLDER,
+        #'plots_folder': PLOTS_FOLDER,
+        #'vector_db_exists': os.path.exists(VECTOR_DB_DIR),
         'postgres_connected': using_postgres()
     })
 
